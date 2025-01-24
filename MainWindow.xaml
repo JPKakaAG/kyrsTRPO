@@ -1,0 +1,37 @@
+﻿<Window x:Class="kyrsTRPO.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:kyrsTRPO"
+        mc:Ignorable="d"
+       Title="Учёт личных финансов" Height="400" ResizeMode="NoResize" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="43*"/>
+            <RowDefinition Height="52*"/>
+            <RowDefinition Height="84*"/>
+            <RowDefinition Height="146*"/>
+            <RowDefinition Height="59*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text=""  FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Width="145" Height="26" FontFamily="Microsoft Sans Serif"/>
+
+        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Hidden">
+            <StackPanel Width="300">
+                <TextBlock Text="Общий баланс:" FontFamily="Microsoft Sans Serif" Margin="5,0,0,0"/>
+                <TextBlock Name="BalanceTextBlock" FontWeight="Bold" FontSize="16" Margin="5,0,0,0" FontFamily="Microsoft Sans Serif" Height="127"/>
+            </StackPanel>
+        </ScrollViewer>
+        <TextBlock Text="Доход:" Margin="5,43,0,0" Grid.RowSpan="2"/>
+        <TextBox Name="IncomeTextBox"  Margin="50,0,50,0" VerticalAlignment="Center" Grid.Row="1" Height="18" />
+
+        <TextBlock Text="Расход:" Grid.Row="1" Margin="5,52,0,0" Grid.RowSpan="2"/>
+        <TextBox Name="ExpenseTextBox" Grid.Row="2" VerticalAlignment="Center"  Margin="50,0,50,0" Height="18" />
+
+        <Button Content="Добавить"  Grid.Row="4" VerticalAlignment="Top" Click="AddButton_Click" Height="20"  Margin="50,0,50,0" Grid.RowSpan="2"/>
+        <Button Content="Сбросить" Grid.Row="4" VerticalAlignment="Bottom" Click="ResetButton_Click" Height="20"  Margin="50,0,50,10" />
+
+
+
+    </Grid>
+</Window>

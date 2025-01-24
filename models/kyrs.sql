@@ -1,0 +1,5 @@
+CREATE TABLE Пользователь (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    Логин NVARCHAR(50) NOT NULL,
+    Пароль NVARCHAR(50) NOT NULL
+);
