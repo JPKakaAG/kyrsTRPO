@@ -7,31 +7,65 @@
         mc:Ignorable="d"
        Title="Учёт личных финансов" Height="400" ResizeMode="NoResize" Width="300">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="43*"/>
-            <RowDefinition Height="52*"/>
-            <RowDefinition Height="84*"/>
-            <RowDefinition Height="146*"/>
-            <RowDefinition Height="59*"/>
-        </Grid.RowDefinitions>
-        <TextBlock Text=""  FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Width="145" Height="26" FontFamily="Microsoft Sans Serif"/>
+        <Grid x:Name="Gmain" Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="43*"/>
+                <RowDefinition Height="52*"/>
+                <RowDefinition Height="84*"/>
+                <RowDefinition Height="146*"/>
+                <RowDefinition Height="59*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text=""  FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Width="145" Height="26" FontFamily="Microsoft Sans Serif"/>
 
-        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Hidden">
-            <StackPanel Width="300">
-                <TextBlock Text="Общий баланс:" FontFamily="Microsoft Sans Serif" Margin="5,0,0,0"/>
-                <TextBlock Name="BalanceTextBlock" FontWeight="Bold" FontSize="16" Margin="5,0,0,0" FontFamily="Microsoft Sans Serif" Height="127"/>
-            </StackPanel>
-        </ScrollViewer>
-        <TextBlock Text="Доход:" Margin="5,43,0,0" Grid.RowSpan="2"/>
-        <TextBox Name="IncomeTextBox"  Margin="50,0,50,0" VerticalAlignment="Center" Grid.Row="1" Height="18" />
+            <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Hidden">
+                <StackPanel Width="300">
+                    <TextBlock Text="Общий баланс:" FontFamily="Microsoft Sans Serif" Margin="5,0,0,0"/>
+                    <TextBlock Name="BalanceTextBlock" FontWeight="Bold" FontSize="16" Margin="5,0,0,0" FontFamily="Microsoft Sans Serif" Height="127"/>
+                </StackPanel>
+            </ScrollViewer>
+            <TextBlock Text="Доход:" Margin="5,43,0,0" Grid.RowSpan="2"/>
+            <TextBox Name="IncomeTextBox"  Margin="50,0,50,0" VerticalAlignment="Center" Grid.Row="1" Height="18" />
 
-        <TextBlock Text="Расход:" Grid.Row="1" Margin="5,52,0,0" Grid.RowSpan="2"/>
-        <TextBox Name="ExpenseTextBox" Grid.Row="2" VerticalAlignment="Center"  Margin="50,0,50,0" Height="18" />
+            <TextBlock Text="Расход:" Grid.Row="1" Margin="5,52,0,0" Grid.RowSpan="2"/>
+            <TextBox Name="ExpenseTextBox" Grid.Row="2" VerticalAlignment="Center"  Margin="50,0,50,0" Height="18" />
 
-        <Button Content="Добавить"  Grid.Row="4" VerticalAlignment="Top" Click="AddButton_Click" Height="20"  Margin="50,0,50,0" Grid.RowSpan="2"/>
-        <Button Content="Сбросить" Grid.Row="4" VerticalAlignment="Bottom" Click="ResetButton_Click" Height="20"  Margin="50,0,50,10" />
+            <Button Content="Добавить"  Grid.Row="4" VerticalAlignment="Top" Click="AddButton_Click" Height="20"  Margin="50,0,50,0" Grid.RowSpan="2"/>
 
-
-
+            <Button x:Name="Message" Click="btn_settingsClick" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="35" Background="Transparent" Width="37" >
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="White" CornerRadius="30" BorderThickness="0">
+                            <Grid>
+                                <Image Source="icon/settings.png" Width="44" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+        <Grid x:Name="Gsettings" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button Content="Удалить учётную запись" Grid.Row="3" Margin="50,0,50,0" VerticalAlignment="Center" Height="48"/>
+            <Button Content="Сбросить" Click="ResetButton_Click"  Grid.Row="4" VerticalAlignment="Center"  Height="48"  Margin="50,0,50,0" />
+            <RadioButton Content="Темная тема"/>
+            <Button Click="btn_backClick" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="28" Background="Transparent" Width="28" >
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="White" CornerRadius="30" BorderThickness="0">
+                            <Grid>
+                                <Image Source="icon/back.png" Width="44" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
     </Grid>
+
 </Window>

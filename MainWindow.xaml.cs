@@ -19,13 +19,15 @@ namespace kyrsTRPO
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string DataFilePath = @"C:\Users\devya\source\repos\kyrsTRPO\data\finance_data.json";
+        private const string DataFilePath = @"C:\Users\isp41\source\repos\JPKakaAG\kyrsTRPO\data\finance_data.json";
         private string currentUserLogin;
         public MainWindow(string userLogin)
         {
             InitializeComponent();
             currentUserLogin = userLogin; 
             LoadFinanceData();
+            Gmain.Visibility = Visibility.Visible;
+            Gsettings.Visibility = Visibility.Collapsed;
         }
         private void LoadFinanceData()
         {
@@ -124,6 +126,18 @@ namespace kyrsTRPO
 
             // После сброса перезагружаем данные
             LoadFinanceData();
+        }
+
+        private void btn_settingsClick(object sender, RoutedEventArgs e)
+        {
+            Gmain.Visibility = Visibility.Collapsed;
+            Gsettings.Visibility = Visibility.Visible;
+        }
+
+        private void btn_backClick(object sender, RoutedEventArgs e)
+        {
+            Gsettings.Visibility = Visibility.Collapsed;    
+            Gmain.Visibility = Visibility.Visible;
         }
     }
 }
