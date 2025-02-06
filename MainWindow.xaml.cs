@@ -10,6 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.Json;
 using System.IO;
+using Microsoft.Data.SqlClient;
 
 
 namespace kyrsTRPO
@@ -19,12 +20,14 @@ namespace kyrsTRPO
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string DataFilePath = @"C:\Users\isp41\source\repos\JPKakaAG\kyrsTRPO\data\finance_data.json";
+        private const string DataFilePath = @"C:\Users\devya\source\repos\JPKakaAG\kyrsTRPO\data\finance_data.json";
         private string currentUserLogin;
+        private ResourceDictionary lightTheme;
+        private ResourceDictionary darkTheme;
         public MainWindow(string userLogin)
         {
             InitializeComponent();
-            currentUserLogin = userLogin; 
+            currentUserLogin = userLogin;
             LoadFinanceData();
             Gmain.Visibility = Visibility.Visible;
             Gsettings.Visibility = Visibility.Collapsed;
@@ -59,15 +62,11 @@ namespace kyrsTRPO
 
             if (decimal.TryParse(IncomeTextBox.Text, out income) && decimal.TryParse(ExpenseTextBox.Text, out expense))
             {
-                var newRecord = new FinanceRecord
-                {
-                    Login = currentUserLogin,
-                    Income = income,
-                    Expense = expense
-                };
                 List<FinanceRecord> records;
+
                 if (File.Exists(DataFilePath))
                 {
+                    // Чтение существующих записей
                     string json = File.ReadAllText(DataFilePath);
                     records = JsonSerializer.Deserialize<List<FinanceRecord>>(json) ?? new List<FinanceRecord>();
                 }
@@ -75,10 +74,33 @@ namespace kyrsTRPO
                 {
                     records = new List<FinanceRecord>();
                 }
-                records.Add(newRecord);
+
+                // Найти запись для текущего пользователя
+                var existingRecord = records.FirstOrDefault(r => r.Login == currentUserLogin);
+
+                if (existingRecord != null)
+                {
+                    // Обновить существующую запись
+                    existingRecord.Income += income; // Добавляем новый доход
+                    existingRecord.Expense += expense; // Добавляем новый расход
+                }
+                else
+                {
+                    // Создать новую запись если её нет
+                    var newRecord = new FinanceRecord
+                    {
+                        Login = currentUserLogin,
+                        Income = income,
+                        Expense = expense
+                    };
+
+                    records.Add(newRecord);
+                }
+
                 // Сохранение обновленных данных в файл
                 string updatedJson = JsonSerializer.Serialize(records);
                 File.WriteAllText(DataFilePath, updatedJson);
+
                 // После добавления перезагружаем данные
                 LoadFinanceData();
             }
@@ -87,6 +109,7 @@ namespace kyrsTRPO
                 MessageBox.Show("Введите корректные значения дохода и расхода.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             // Очищаем поля ввода
@@ -139,5 +162,65 @@ namespace kyrsTRPO
             Gsettings.Visibility = Visibility.Collapsed;    
             Gmain.Visibility = Visibility.Visible;
         }
+
+        private void DelAc_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Вы уверены, что хотите удалить свою учетную запись?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // Удаляем учетную запись из базы данных
+                DeleteUserAccount(currentUserLogin);
+
+                // Перенаправляем на окно авторизации
+                var loginWindow = new Avt(); // создаем новое окно авторизации
+                loginWindow.Show(); // отображаем его
+                this.Close(); // закрываем текущее окно
+            }
+        }
+        private void DeleteUserAccount(string login)
+        {
+            string connectionString = "Server=DESKTOP-I00R4RJ; Database=finance; User=des; Password=1234567890; Encrypt=false";
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand("DELETE FROM Пользователь WHERE Логин = @login", connection);
+                command.Parameters.AddWithValue("@login", login);
+
+                command.ExecuteNonQuery();
+            }
+        }
+        private void DarkTheme_Checked(object sender, RoutedEventArgs e)
+        {
+            ApplyTheme("DarkThemeStyle");
+            this.Background = Brushes.Gray;
+            
+        }
+        private void DarkTheme_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ApplyTheme("LightThemeStyle");
+            this.Background = Brushes.White;
+        }
+        private void ApplyTheme(string themeKey)
+        {
+            // Применяем стиль ко всем элементам в Gmain
+            foreach (var child in Gmain.Children)
+            {
+                if (child is Control control)
+                {
+                    control.Style = (Style)FindResource(themeKey);
+                }
+            }
+
+            // Применяем стиль ко всем элементам в Gsettings
+            foreach (var child in Gsettings.Children)
+            {
+                if (child is Control control)
+                {
+                    control.Style = (Style)FindResource(themeKey);
+                }
+            }
+        }
+
     }
 }

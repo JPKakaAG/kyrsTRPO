@@ -6,6 +6,19 @@
         xmlns:local="clr-namespace:kyrsTRPO"
         mc:Ignorable="d"
        Title="Учёт личных финансов" Height="400" ResizeMode="NoResize" Width="300">
+    <Window.Resources>
+        <Style x:Key="LightThemeStyle" TargetType="Control">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+        </Style>
+
+        <Style x:Key="DarkThemeStyle" TargetType="Control">
+            <Setter Property="Background" Value="#333333"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid x:Name="Gmain" Visibility="Visible">
             <Grid.RowDefinitions>
@@ -24,17 +37,17 @@
                 </StackPanel>
             </ScrollViewer>
             <TextBlock Text="Доход:" Margin="5,43,0,0" Grid.RowSpan="2"/>
-            <TextBox Name="IncomeTextBox"  Margin="50,0,50,0" VerticalAlignment="Center" Grid.Row="1" Height="18" />
+            <TextBox Name="IncomeTextBox" Text="0"  Margin="50,0,50,0" VerticalAlignment="Center" Grid.Row="1" Height="18" />
 
             <TextBlock Text="Расход:" Grid.Row="1" Margin="5,52,0,0" Grid.RowSpan="2"/>
-            <TextBox Name="ExpenseTextBox" Grid.Row="2" VerticalAlignment="Center"  Margin="50,0,50,0" Height="18" />
+            <TextBox Name="ExpenseTextBox" Text="0" Grid.Row="2" VerticalAlignment="Center"  Margin="50,0,50,0" Height="18" />
 
             <Button Content="Добавить"  Grid.Row="4" VerticalAlignment="Top" Click="AddButton_Click" Height="20"  Margin="50,0,50,0" Grid.RowSpan="2"/>
 
-            <Button x:Name="Message" Click="btn_settingsClick" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="35" Background="Transparent" Width="37" >
+            <Button x:Name="btnSet" Click="btn_settingsClick" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="35" Background="Transparent" Width="37" >
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="White" CornerRadius="30" BorderThickness="0">
+                        <Border Background="Transparent" CornerRadius="30" BorderThickness="0">
                             <Grid>
                                 <Image Source="icon/settings.png" Width="44" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
@@ -51,13 +64,14 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Button Content="Удалить учётную запись" Grid.Row="3" Margin="50,0,50,0" VerticalAlignment="Center" Height="48"/>
+            <Button Content="Удалить учётную запись" Click="DelAc_Click" Grid.Row="3" Margin="50,0,50,0" VerticalAlignment="Center" Height="48"/>
             <Button Content="Сбросить" Click="ResetButton_Click"  Grid.Row="4" VerticalAlignment="Center"  Height="48"  Margin="50,0,50,0" />
-            <RadioButton Content="Темная тема"/>
+            <RadioButton Content="Темная тема" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="DarkTheme_Checked" Unchecked="DarkTheme_Unchecked"/>
+
             <Button Click="btn_backClick" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="28" Background="Transparent" Width="28" >
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="White" CornerRadius="30" BorderThickness="0">
+                        <Border Background="Transparent" CornerRadius="30" BorderThickness="0">
                             <Grid>
                                 <Image Source="icon/back.png" Width="44" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
